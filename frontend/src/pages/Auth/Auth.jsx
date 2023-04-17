@@ -12,8 +12,8 @@ const Auth = () => {
           <h6>Expolre Your Life With Celebrity</h6>
         </div>
       </div>
-      {/* <SignUp /> */}
-      <LogIn />
+      <SignUp />
+      {/* <LogIn /> */}
     </div>
   );
 };
