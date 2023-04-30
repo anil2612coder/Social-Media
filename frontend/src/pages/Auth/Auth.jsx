@@ -1,19 +1,57 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import Logo from "../../img/logo.png";
+import { useDispatch } from "react-redux";
+import { logIn, signUp } from "../../actions/AuthAction";
 
 const Auth = () => {
   const [isSignUp, setSignUp] = useState(true);
-  const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
-    password: "",
-    confirmpass: "",
-    username: "",
-  });
+  const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [confirmPassCheck, setConfirmPassCheck] = useState(true);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (isSignUp) {
+      password === confirmPass
+        ? dispatch(
+            signUp({
+              firstName: "",
+              lastName: "",
+              userName: "",
+              password: "",
+              confirmPass: "",
+              confirmPassCheck: "",
+            })
+          )
+        : setConfirmPassCheck(false);
+    } else {
+      dispatch(
+        logIn({
+          Name: "",
+          lastName: "",
+          userName: "",
+          password: "",
+          confirmPass: "",
+          confirmPassCheck: "",
+        })
+      );
+    }
+  };
+
+  const resetForm = () => {
+    setConfirmPassCheck(true);
+    setFirstName("");
+    setLastName("");
+    setUserName("");
+    setPassword("");
+    setConfirmPass("");
   };
 
   return (
@@ -27,19 +65,27 @@ const Auth = () => {
       </div>
 
       <div className="a-right">
-        <form className="infoForm authForm">
+        <form className="infoForm authForm" onSubmit={handleSubmit}>
           <h3>{isSignUp ? "Sign Up" : "Log In"}</h3>
 
           {isSignUp && (
             <div>
               <input
                 type="text"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
                 placeholder="First Name"
                 className="infoInput"
                 name="firstname"
               />
               <input
                 type="text"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
                 placeholder="Last Name"
                 className="infoInput"
                 name="lastname"
@@ -50,15 +96,23 @@ const Auth = () => {
           <div>
             <input
               type="text"
+              value={userName}
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
               className="infoInput"
               name="username"
-              placeholder="Usernames"
+              placeholder="Username"
             />
           </div>
 
           <div>
             <input
               type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               className="infoInput"
               name="password"
               placeholder="Password"
@@ -66,18 +120,33 @@ const Auth = () => {
             {isSignUp && (
               <input
                 type="password"
+                value={confirmPass}
+                onChange={(e) => {
+                  setConfirmPass(e.target.value);
+                }}
                 className="infoInput"
                 name="confirmpass"
                 placeholder="Confirm Password"
               />
             )}
           </div>
-
+          <span
+            style={{
+              display: confirmPassCheck ? "none" : "block",
+              color: "red",
+              fontSize: "12px",
+              alignSelf: "flex-end",
+              marginRight: "5px",
+            }}
+          >
+            * Confirm Password is not same
+          </span>
           <div>
             <span
               style={{ fontSize: "15px", cursor: "pointer" }}
               onClick={() => {
                 setSignUp(!isSignUp);
+                resetForm();
               }}
             >
               {isSignUp
