@@ -1,58 +1,53 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import Logo from "../../img/logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 import { logIn, signUp } from "../../actions/AuthAction";
 
 const Auth = () => {
-  const [isSignUp, setSignUp] = useState(true);
+  const initialState = {
+    firstname: "",
+    lastname: "",
+    username: "",
+    password: "",
+    confirmpass: "",
+  };
+  const loading = useSelector((state) => state.authReducer.loading);
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isSignUp, setIsSignUp] = useState(false);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
-  const [confirmPassCheck, setConfirmPassCheck] = useState(true);
+  const [data, setData] = useState(initialState);
 
+  const [confirmPass, setConfirmPass] = useState(true);
+
+  // const dispatch = useDispatch()
+
+  // Reset Form
+  const resetForm = () => {
+    setData(initialState);
+    setConfirmPass(confirmPass);
+  };
+
+  // handle Change in input
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  // Form Submission
   const handleSubmit = (e) => {
+    setConfirmPass(true);
     e.preventDefault();
-
     if (isSignUp) {
-      password === confirmPass
-        ? dispatch(
-            signUp({
-              firstName: "",
-              lastName: "",
-              userName: "",
-              password: "",
-              confirmPass: "",
-              confirmPassCheck: "",
-            })
-          )
-        : setConfirmPassCheck(false);
+      data.password === data.confirmpass
+        ? dispatch(signUp(data))
+        : setConfirmPass(false);
     } else {
-      dispatch(
-        logIn({
-          Name: "",
-          lastName: "",
-          userName: "",
-          password: "",
-          confirmPass: "",
-          confirmPassCheck: "",
-        })
-      );
+      dispatch(logIn(data));
     }
   };
 
-  const resetForm = () => {
-    setConfirmPassCheck(true);
-    setFirstName("");
-    setLastName("");
-    setUserName("");
-    setPassword("");
-    setConfirmPass("");
-  };
 
   return (
     <div className="Auth">
@@ -72,20 +67,16 @@ const Auth = () => {
             <div>
               <input
                 type="text"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
+                onChange={handleChange}
+                value={data.firstname}
                 placeholder="First Name"
                 className="infoInput"
                 name="firstname"
               />
               <input
                 type="text"
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
+                value={data.lastname}
+                onChange={handleChange}
                 placeholder="Last Name"
                 className="infoInput"
                 name="lastname"
@@ -96,10 +87,8 @@ const Auth = () => {
           <div>
             <input
               type="text"
-              value={userName}
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
+              value={data.username}
+              onChange={handleChange}
               className="infoInput"
               name="username"
               placeholder="Username"
@@ -109,10 +98,8 @@ const Auth = () => {
           <div>
             <input
               type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              value={data.password}
+              onChange={handleChange}
               className="infoInput"
               name="password"
               placeholder="Password"
@@ -120,10 +107,8 @@ const Auth = () => {
             {isSignUp && (
               <input
                 type="password"
-                value={confirmPass}
-                onChange={(e) => {
-                  setConfirmPass(e.target.value);
-                }}
+                value={data.confirmpass}
+                onChange={handleChange}
                 className="infoInput"
                 name="confirmpass"
                 placeholder="Confirm Password"
@@ -132,7 +117,7 @@ const Auth = () => {
           </div>
           <span
             style={{
-              display: confirmPassCheck ? "none" : "block",
+              display: setConfirmPass ? "none" : "block",
               color: "red",
               fontSize: "12px",
               alignSelf: "flex-end",
@@ -145,7 +130,7 @@ const Auth = () => {
             <span
               style={{ fontSize: "15px", cursor: "pointer" }}
               onClick={() => {
-                setSignUp(!isSignUp);
+                setIsSignUp(!isSignUp);
                 resetForm();
               }}
             >
