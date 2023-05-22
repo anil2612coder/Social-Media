@@ -14,7 +14,7 @@ const PostShare = () => {
   const loading = useSelector((state) => state.postReducer.uploading);
   const [image, setImage] = useState(null);
   const desc = useRef();
-  // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+  const serverPublic = import.meta.env.VITE_PUBLIC_FOLDER;
   // handle Image Change
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -64,9 +64,9 @@ const PostShare = () => {
         src={
           user.profilePicture
             ? serverPublic + user.profilePicture
-            : serverPublic + "defaultProfile.png"
+            : serverPublic + "defaultProfile.jpg"
         }
-        alt="Profile"
+        alt="ProfileImage"
       />
       <div>
         <input ref={desc} required type="text" placeholder="What's happening" />
@@ -91,7 +91,7 @@ const PostShare = () => {
             <UilSchedule />
             Shedule
           </div>
-          <button className="button ps-button" onClick={handleSubmit} disabled={loading}>{loading ? "Uploading..." : "Share"}</button>
+          <button className="button ps-button" onClick={handleUpload} disabled={loading}>{loading ? "Uploading..." : "Share"}</button>
           <div style={{ display: "none" }}>
             <input
               type="file"

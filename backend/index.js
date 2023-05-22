@@ -8,6 +8,7 @@ import PostRoute from "./Routes/PostRoute.js";
 import UploadRoute from "./Routes/UploadRoute.js"
 import cors from "cors"
 
+dotenv.config({ path: "./config/config.env" });
 const app = express();
 app.use(cors())
 
@@ -17,7 +18,6 @@ app.use('/images', express.static("images"))
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-dotenv.config({ path: "./config/config.env" });
 
 mongoose
   .connect(process.env.LOCAL_DB, {
