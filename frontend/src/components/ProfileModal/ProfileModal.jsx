@@ -9,7 +9,6 @@ import { updateUser } from "../../actions/UserAction";
 function ProfileModal({ modalOpened, setModalOpened, data }) {
   const theme = useMantineTheme();
 
-
   const { password, ...other } = data;
   const [formData, setFormData] = useState(other);
   const [profileImage, setProfileImage] = useState(null);
@@ -148,7 +147,9 @@ function ProfileModal({ modalOpened, setModalOpened, data }) {
           <input type="file" name="coverImage" onChange={onImageChange} />
         </div>
 
-        <button className="button infoButton" onClick={handleSubmit}>Update</button>
+        <button className="button infoButton" onClick={handleSubmit}>
+          Update
+        </button>
       </form>
     </Modal>
   );

@@ -6,10 +6,13 @@
     background-color: var(--cardColor);
     border-radius: 1rem;
     gap: 1rem;
+    /* justify-content: center; */
+    /* align-items: center; */
 }
 
 .Post>img{
     width: 100%;
+    /* align-self: center; */
     max-height: 30rem;
     object-fit: contain;
     border-radius: 0.5rem;

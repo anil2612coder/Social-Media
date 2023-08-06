@@ -43,17 +43,7 @@ const ProfileCard = ({ location }) => {
             <span>{user.followers.length}</span>
             <span>Followers</span>
           </div>
-          {/* {location === "profilePage" && (
-            <>
-              <div className="vl"></div>
-              <div className="follow">
-                <span>{
-                  posts.filter((post) => post.userId === user._id).length
-                }</span>
-                <span>Posts</span>
-              </div>
-            </>
-          )} */}
+
         </div>
         <hr />
       </div>
