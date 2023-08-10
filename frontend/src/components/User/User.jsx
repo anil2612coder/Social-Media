@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { followUser, unfollowUser } from "../../actions/UserAction";
 const User = ({ person }) => {
-  const serverPublic = import.meta.env.VITE_PUBLIC_FOLDER;
+  const publicFolder = import.meta.env.VITE_PUBLIC_FOLDER;
   const { user } = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
 
@@ -20,9 +20,9 @@ const User = ({ person }) => {
       <div>
         <img
           src={
-            user.profilePicture
-              ? serverPublic + user.profilePicture
-              : serverPublic + "defaultProfile.jpg"
+            person.profilePicture
+              ? publicFolder + person.profilePicture
+              : publicFolder + "defaultProfile.jpg"
           }
           alt="profile"
           className="followerImage"
